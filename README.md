@@ -1,0 +1,3 @@
+-- added crud for 3 indp. data
+-- No edit + del for class membership
+-- no final reports
