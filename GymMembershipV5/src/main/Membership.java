@@ -19,7 +19,8 @@ public class Membership {
             System.out.println("| 2. View Members                        |");
             System.out.println("| 3. Update Member                       |");
             System.out.println("| 4. Delete Member                       |");
-            System.out.println("| 5. Exit                                |");
+            System.out.println("| 5. Reports                             |");
+            System.out.println("| 6. Exit                                |");
             System.out.println("=========================================");
             System.out.print("Select an action (1-5): ");
             int action = sc.nextInt();
@@ -29,6 +30,7 @@ public class Membership {
             switch(action){
                 case 1:
                     manage.addMember();
+                    manage.viewMember();
                     break;
                 case 2:
                     manage.viewMember();
@@ -42,6 +44,9 @@ public class Membership {
                 case 5:
                     
                     break;    
+                case 6:
+                    
+                    break;       
             }
             
             System.out.print("Do you want to continue?(Yes/No): ");
@@ -116,5 +121,39 @@ public class Membership {
         conf.viewRecords(query, headers, columns);
     }
     
+    public static void editMember(){
+    
+        Scanner sc = new Scanner(System.in);
+        config conf = new config();
+        
+        System.out.print("Enter ID to edit: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        
+        while(conf.getSingleValue("SELECT member_id FROM tbl_membership WHERE member_id = ?", id) == 0){
+            System.out.println("Selected ID does not exist!");
+            System.out.print("Select Member ID again: ");
+            id = sc.nextInt();
+        }
+    }
+    
+    public static void deleteMember(){
+    
+        Scanner sc = new Scanner(System.in);
+        config conf = new config();
+        
+        System.out.print("Enter ID to Delete: ");
+        int id = sc.nextInt();
+        
+        while(conf.getSingleValue("SELECT member_id FROM tbl_membership WHERE member_id = ?", id) == 0){
+            System.out.println("Selected ID does not exist!");
+            System.out.print("Select Member ID again: ");
+            id = sc.nextInt();
+        }
+        
+        String sql = "DELETE FROM tbl_membership WHERE member_id = ?";
+        conf.deleteRecord(sql, id);
+
+    }
     
 }
